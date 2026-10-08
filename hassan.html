@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Profiles Cards</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(23, 32, 54, 0.7);
+      --card-hover: rgba(30, 41, 67, 0.85);
+      --accent-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .profile-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .profile-card:hover {
+      transform: translateY(-6px);
+      background: var(--card-hover);
+      border-color: rgba(225, 48, 108, 0.3);
+      box-shadow: 0 15px 35px rgba(225, 48, 108, 0.15);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .username-area {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .instagram-icon {
+      font-size: 1.2rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .username {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      padding: 3px;
+      background: var(--accent-gradient);
+      flex-shrink: 0;
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #111;
+      border: 2px solid #0b0f19;
+    }
+
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .stat-item .value {
+      font-weight: 700;
+      font-size: 1.05rem;
+      display: block;
+      color: var(--text-main);
+    }
+
+    .stat-item .label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .full-name {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hover-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.6rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      transition: all 0.3s ease;
+      border: 1px dashed rgba(255,255,255,0.1);
+    }
+
+    .profile-card:hover .hover-prompt {
+      background: rgba(225, 48, 108, 0.1);
+      color: #ff758c;
+      border-style: solid;
+      border-color: rgba(225, 48, 108, 0.3);
+    }
+
+    .bio-details {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-top: 1px solid rgba(255, 255, 255, 0);
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .profile-card:hover .bio-details {
+      max-height: 300px;
+      opacity: 1;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top-color: var(--border-color);
+    }
+
+    .bio-text {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+      white-space: pre-line;
+      margin-bottom: 0.8rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>حسابات إنستغرام</h1>
+    <p>مرر الماوس فوق أي حساب لرؤية البايو والتفاصيل الكاملة</p>
+  </div>
+
+  <div class="cards-container">
+
+    <!-- Profile 1 -->
+    <div class="profile-card">
+      <div class="card-top">
+        <div class="username-area">
+          <i class="fa-brands fa-instagram instagram-icon"></i>
+          <span class="username">elou_afi0</span>
+        </div>
+        <div class="actions">
+          <i class="fa-regular fa-bell"></i>
+          <i class="fa-solid fa-ellipsis"></i>
+        </div>
+      </div>
+      
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <div class="avatar-inner">
+            <img src="profile1.jpg" alt="elou_afi0" onerror="this.onerror=null; this.src='profile1.png';">
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat-item"><span class="value">6</span><span class="label">منشورات</span></div>
+          <div class="stat-item"><span class="value">1,553</span><span class="label">متابعين</span></div>
+          <div class="stat-item"><span class="value">168</span><span class="label">تتابع</span></div>
+        </div>
+      </div>
+
+      <div class="full-name">H a s s a n 💖</div>
+
+      <div class="hover-prompt">
+        <span>مرر الماوس لرؤية البايو والتفاصيل</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+      <div class="bio-details">
+        <div class="bio-text">ضَاقَت فَلَمَا آستُحكِمَتْ حَلقَاتُهَا فُرِجَت وَكُنتُ أظُنُّهَا لاَ تُفْرَج ❤️🩹
+
+1225🪬🫀</div>
+        <div class="badges">
+          <div class="badge"><i class="fa-solid fa-music"></i> Tzazae Cheb Mami</div>
+          <div class="badge"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+          <div class="badge"><i class="fa-solid fa-user"></i> ال' وافي 🪬</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile 2 -->
+    <div class="profile-card">
+      <div class="card-top">
+        <div class="username-area">
+          <i class="fa-brands fa-instagram instagram-icon"></i>
+          <span class="username">luuv_yass</span>
+        </div>
+        <div class="actions">
+          <i class="fa-regular fa-bell"></i>
+          <i class="fa-solid fa-ellipsis"></i>
+        </div>
+      </div>
+      
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <div class="avatar-inner">
+            <img src="profile2.jpg" alt="luuv_yass" onerror="this.onerror=null; this.src='profile2.png';">
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat-item"><span class="value">3</span><span class="label">منشورات</span></div>
+          <div class="stat-item"><span class="value">907</span><span class="label">متابعين</span></div>
+          <div class="stat-item"><span class="value">109</span><span class="label">تتابع</span></div>
+        </div>
+      </div>
+
+      <div class="full-name">Luuv Yas</div>
+
+      <div class="hover-prompt">
+        <span>مرر الماوس لرؤية البايو والتفاصيل</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+      <div class="bio-details">
+        <div class="bio-text">«aℓways fσяєvєяs 🫀 🦋»
+@bounita_2
+Y19 📸 🎁
+Kacm 🪐❤️
+1208🫶🏻🔥</div>
+        <div class="badges">
+          <div class="badge"><i class="fa-solid fa-link"></i> Voir la traduction</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile 3 -->
+    <div class="profile-card">
+      <div class="card-top">
+        <div class="username-area">
+          <i class="fa-brands fa-instagram instagram-icon"></i>
+          <span class="username">bounita_2</span>
+        </div>
+        <div class="actions">
+          <i class="fa-regular fa-bell"></i>
+          <i class="fa-solid fa-ellipsis"></i>
+        </div>
+      </div>
+      
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <div class="avatar-inner">
+            <img src="profile3.jpg" alt="bounita_2" onerror="this.onerror=null; this.src='profile3.png';">
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat-item"><span class="value">0</span><span class="label">منشورات</span></div>
+          <div class="stat-item"><span class="value">854</span><span class="label">متابعين</span></div>
+          <div class="stat-item"><span class="value">74</span><span class="label">تتابع</span></div>
+        </div>
+      </div>
+
+      <div class="full-name">🌸🦢Hiɵₒ2🦢🌸</div>
+
+      <div class="hover-prompt">
+        <span>مرر الماوس لرؤية البايو والتفاصيل</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+      <div class="bio-details">
+        <div class="bio-text">🎀✨ 02 dec ✨🎀
+29/03/24 💔🪦
+«me & 𝔶𝔬𝔲»
+@luuv_yass</div>
+        <div class="badges">
+          <div class="badge"><i class="fa-brands fa-facebook"></i> Bouni Ta</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
